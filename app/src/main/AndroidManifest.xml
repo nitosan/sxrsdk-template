@@ -10,7 +10,7 @@
     <uses-feature android:name="android.software.vr.mode" android:required="false"/>
     <!-- Indicates use of VR features that are available only on Daydream-ready devices. -->
     <uses-feature android:name="android.hardware.vr.high_performance" android:required="false"/>
-    
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,10 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        
-        <!-- Use Gear VR, comment this meta-data for Google DayDream -->
         <meta-data android:name="com.samsung.android.vr.application.mode" android:value="vr_only"/>
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
