@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GVRF_sample_1.iml" filepath="$PROJECT_DIR$/GVRF_sample_1.iml" />
       <module fileurl="file://$PROJECT_DIR$/GVRF_template.iml" filepath="$PROJECT_DIR$/GVRF_template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GearVRf-template.iml" filepath="$PROJECT_DIR$/GearVRf-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
