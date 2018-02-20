@@ -13,13 +13,15 @@ import org.gearvrf.GVRPhongShader;
 import org.gearvrf.GVRPicker;
 import org.gearvrf.GVRSceneObject;
 import org.gearvrf.GVRTexture;
-import org.gearvrf.IEvents;
 import org.gearvrf.io.CursorControllerListener;
 import org.gearvrf.io.GVRControllerType;
 import org.gearvrf.io.GVRInputManager;
 import org.gearvrf.scene_objects.GVRCubeSceneObject;
 import org.gearvrf.scene_objects.GVRGearControllerSceneObject;
 import org.gearvrf.utility.Log;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class Gvr {
     private static GVRContext s_Context = null;
@@ -29,7 +31,7 @@ public class Gvr {
     public static void init(GVRContext context){
         s_Context = context;
 
-        initControllers();
+        //initControllers();
     }
 
     /***************************************
@@ -66,6 +68,76 @@ public class Gvr {
                 s_Context.getAssetLoader().loadTexture(new GVRAndroidResource(s_Context, textureID)));
 
         return quad;
+    }
+
+    /***************************************
+     * Utils
+     ***************************************/
+    public static Matrix4f getWorldMatrix(GVRSceneObject object){
+        Matrix4f tmp = object.getTransform().getModelMatrix4f();
+
+        GVRSceneObject p = object.getParent();
+
+        while (p != null) {
+
+            tmp.mul(p.getTransform().getModelMatrix4f());
+
+            p = p.getParent();
+        }
+
+        return tmp;
+    }
+
+    public static void setWorldDirection(GVRSceneObject object, Vector3f direction) {
+        Matrix4f tmp = getWorldMatrix(object);
+        Matrix4f newMat = new Matrix4f();
+
+        tmp.m20(-direction.x);
+        tmp.m21(-direction.y);
+        tmp.m22(-direction.z);
+
+        //newMat = reverseMatrix(object, tmp);
+
+        object.getTransform().setModelMatrix(tmp);
+    }
+
+    static Matrix4f reverseMatrix(GVRSceneObject object, Matrix4f worldMat){
+        Matrix4f mat = new Matrix4f();
+        Matrix4f newMat = new Matrix4f(worldMat);
+
+        if(object.getParent() != null){
+            newMat = reverseMatrix(object.getParent(), worldMat);
+        }
+
+        object.getTransform().getLocalModelMatrix4f().invert(mat);
+        newMat.mul(mat);
+
+        return newMat;
+    }
+
+    public static Vector3f getWorldDirection(GVRSceneObject object) {
+        Matrix4f tmp = getWorldMatrix(object);
+
+        Vector3f dir = new Vector3f(-tmp.m20(), -tmp.m21(), -tmp.m22());
+
+        return dir;
+    }
+
+    public static Quaternionf getWorldRotation(GVRSceneObject object) {
+        Matrix4f tmp = getWorldMatrix(object);
+
+        Quaternionf rot = new Quaternionf();
+        tmp.getNormalizedRotation(rot);
+
+        return rot;
+    }
+
+    public static Vector3f getWorldPosition(GVRSceneObject object) {
+        Matrix4f tmp = getWorldMatrix(object);
+
+        Vector3f pos = tmp.getTranslation(new Vector3f());
+
+        return pos;
     }
 
     /***************************************
@@ -134,5 +206,7 @@ public class Gvr {
             listener.onCursorControllerAdded(cursor);
         }
     }
+
+
 
 }
