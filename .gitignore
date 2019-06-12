@@ -1,4 +1,5 @@
 .idea/
+*.zip
 
 # Built application files
 *.apk

@@ -2,14 +2,14 @@ package com.example.org.gvrfapplication;
 
 import android.os.Bundle;
 
-import org.gearvrf.GVRActivity;
-import org.gearvrf.GVRAndroidResource;
-import org.gearvrf.GVRContext;
-import org.gearvrf.GVRMain;
-import org.gearvrf.GVRSceneObject;
-import org.gearvrf.GVRTexture;
+import com.samsungxr.SXRActivity;
+import com.samsungxr.SXRAndroidResource;
+import com.samsungxr.SXRContext;
+import com.samsungxr.SXRMain;
+import com.samsungxr.SXRNode;
+import com.samsungxr.SXRTexture;
 
-public class MainActivity extends GVRActivity {
+public class MainActivity extends SXRActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,20 +22,20 @@ public class MainActivity extends GVRActivity {
         setMain(new Main());
     }
 
-    private final class Main extends GVRMain {
+    private final class Main extends SXRMain {
 
         @Override
-        public void onInit(GVRContext gvrContext) throws Throwable {
+        public void onInit(SXRContext gvrContext) throws Throwable {
 
             //Load texture
-            GVRTexture texture = gvrContext.getAssetLoader().loadTexture(new GVRAndroidResource(gvrContext, R.drawable.__default_splash_screen__));
+            SXRTexture texture = gvrContext.getAssetLoader().loadTexture(new SXRAndroidResource(gvrContext, R.drawable.__default_splash_screen__));
 
             //Create a rectangle with the texture we just loaded
-            GVRSceneObject quad = new GVRSceneObject(gvrContext, 4, 2, texture);
+            SXRNode quad = new SXRNode(gvrContext, 4, 2, texture);
             quad.getTransform().setPosition(0, 0, -3);
 
             //Add rectangle to the scene
-            gvrContext.getMainScene().addSceneObject(quad);
+            gvrContext.getMainScene().addNode(quad);
         }
 
         @Override
